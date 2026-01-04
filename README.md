@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```md
+# Mini Quote Component
 
-Currently, two official plugins are available:
+A small, self-contained React component that calculates dynamic pricing for custom apparel orders based on product selection and quantity-based price breaks.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project was built as a time-boxed technical exercise to demonstrate state management, pricing logic, and clean component design in a modern React stack.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Product selection (Shirt A / Shirt B)
+- Quantity-based price breaks:
+  - 1–12 items → $15 / unit
+  - 13–49 items → $12 / unit
+  - 50+ items → $10 / unit
+- Product-specific pricing matrix:
+  - Shirt B adds a $2 surcharge per unit
+- Instant price updates as the user types (no “Calculate” button)
+- Derived state (no unnecessary effects)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Pricing Logic Overview
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The total price is calculated as:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Determine the base unit price from the quantity price breaks
+2. Apply any product-specific surcharge
+3. Multiply the final unit price by the quantity
+
+All pricing rules are implemented in a declarative and easily extensible way.
+
+---
+
+## Project Structure
+
+
+src/
+├─ MiniQuote.tsx   # Core pricing component
+├─ App.tsx         # Minimal app wrapper
+├─ main.tsx        # Vite entry point
+└─ index.css       # Tailwind styles
+
+````
+
+---
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+````
+
+The app will be available at `http://localhost:5173`.
+
+---
+
+## Notes
+
+* Styling is intentionally minimal and functional, aligned with Tailwind / shadcn design principles.
+* The pricing logic is isolated from UI concerns and can be easily extracted to shared domain logic or moved server-side.
+* The component is designed to scale to more complex pricing rules commonly found in ERP and order management systems.
+
 ```
